@@ -1,0 +1,60 @@
+import { StyleSheet } from "react-native";
+
+export const addRecordStyles = StyleSheet.create({
+  formBox: {
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+    backgroundColor: "white",
+  },
+  input: {
+    height: 40,
+    width: "100%",
+    marginTop: 10,
+    marginBottom: 10,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+  },
+  options: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 20,
+    marginTop: 5,
+    marginBottom: 25,
+  },
+  option: {
+    fontSize: 16,
+    borderRadius: 30,
+    textAlign: "center",
+    flex: 1,
+    backgroundColor: "red",
+    color: "white",
+    padding: 10,
+  },
+  multiInput: {
+    backgroundColor: "#EDF5FF",
+    borderRadius: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  saveBtn: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    elevation: 3,
+    backgroundColor: "#1E80FF",
+  },
+  saveText: {
+    fontSize: 20,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
+});
