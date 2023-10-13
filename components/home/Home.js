@@ -95,7 +95,17 @@ export default function Home() {
               <Text style={homeStyles.analyticsContent}>Analytics</Text>
             </View>
             <View style={homeStyles.records}>
-              <Text style={homeStyles.recordsTitle}>Today's Transactions</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginVertical: 20,
+                }}
+              >
+                <Text style={homeStyles.recordsTitle}>Transactions</Text>
+                <Text style={{ fontSize: 15, color: "blue" }}>View All</Text>
+              </View>
               {transactions.map((item, index) => (
                 <View style={homeStyles.record} key={index}>
                   <Icon name="bolt" color="yellow" size={25} />
@@ -106,9 +116,6 @@ export default function Home() {
             </View>
           </ScrollView>
         </View>
-        {/* <View>
-          <ScrollView></ScrollView>
-        </View> */}
       </View>
     </SafeAreaView>
   );
