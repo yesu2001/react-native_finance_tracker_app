@@ -9,8 +9,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  Alert,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
 import Button from "../Button";
+import { addTransaction } from "../../reducers/transactions";
 
 const ExpenseIncomeForm = () => {
   const [isExpense, setIsExpense] = useState(true);
@@ -18,8 +23,44 @@ const ExpenseIncomeForm = () => {
   const [mode, setMode] = useState("");
   const [category, setcategory] = useState("");
   const [description, setDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleSave = () => {};
+  const handleSave = async () => {
+    setIsLoading(true);
+    const transaction = {
+      isExpense,
+      amount,
+      mode,
+      category,
+      description,
+    };
+    try {
+      if (!amount || !mode || !category || !description) {
+        Alert.alert("Incomplete Data", "Fill all the input fields.", [
+          {
+            text: "OK",
+            onPress: () => {},
+          },
+        ]);
+      }
+      dispatch(addTransaction(transaction));
+      setIsLoading(false);
+      Alert.alert("Transaction Saved", "Your transaction has been saved.", [
+        {
+          text: "OK",
+          onPress: () => {
+            setAmount("");
+            setMode("");
+            setcategory("");
+            setDescription("");
+          },
+        },
+      ]);
+    } catch (error) {
+      console.error("Error saving transaction:", error);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
@@ -56,24 +97,47 @@ const ExpenseIncomeForm = () => {
               style={styles.input}
               placeholder="Payment Mode"
               value={mode}
-              onChange={(text) => setMode(text)}
+              onChangeText={(text) => setMode(text)}
             />
           )}
-          <TextInput
-            style={styles.input}
-            placeholder="Category"
-            value={category}
-            onChange={(text) => setcategory(text)}
-          />
+          {isExpense && (
+            <View
+              style={{
+                borderRadius: 10,
+                overflow: "hidden",
+                marginBottom: 12,
+              }}
+            >
+              <Picker
+                selectedValue={category}
+                onValueChange={(itemValue) => setcategory(itemValue)}
+                style={{ backgroundColor: "white" }}
+              >
+                <Picker.Item label="🍕 Food" value="Food" />
+                <Picker.Item label="🥕 Groceries" value="Groceries" />
+                <Picker.Item label="🚌 Transport" value="Transport" />
+                <Picker.Item label="🏥 Health" value="Health" />
+                <Picker.Item label="🎓 Education" value="Education" />
+                <Picker.Item label="👕 Clothes" value="Clothes" />
+                <Picker.Item label="✏️ Others" value="Stationary" />
+                <Picker.Item label="🎛️ Others" value="Others" />
+              </Picker>
+            </View>
+          )}
           <TextInput
             style={styles.input}
             placeholder="Description"
             value={description}
-            onChange={(text) => setDescription(text)}
+            onChangeText={(text) => setDescription(text)}
           />
         </View>
 
-        <Button title="Save" onPress={handleSave} />
+        <Button
+          disabled={!amount || !mode || !description ? true : false}
+          title={isLoading ? "Saving..." : "Save"}
+          onPress={handleSave}
+          bgColor="#1E80FF"
+        />
       </View>
     </SafeAreaView>
   );

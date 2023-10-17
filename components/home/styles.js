@@ -4,6 +4,7 @@ export const homeStyles = StyleSheet.create({
   home: {
     flexDirection: "column",
     padding: 20,
+    backgroundColor: "#F3F4F6",
   },
   header: {
     display: "flex",
@@ -45,7 +46,7 @@ export const homeStyles = StyleSheet.create({
   record: {
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor: "#CD4FF7",
+    backgroundColor: "white",
     display: "flex",
     gap: 10,
     flexDirection: "row",
@@ -59,12 +60,11 @@ export const homeStyles = StyleSheet.create({
   },
   description: {
     flex: 1,
-    color: "white",
+    color: "black",
     fontSize: 18,
   },
   amount: {
     flex: 0.2,
     fontWeight: "bold",
-    color: "white",
   },
 });

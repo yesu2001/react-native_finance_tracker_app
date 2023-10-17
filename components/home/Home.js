@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StatusBar,
   Image,
@@ -6,73 +6,20 @@ import {
   Text,
   View,
   SafeAreaView,
+  FlatList,
+  TouchableOpacity,
 } from "react-native";
+import { useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { homeStyles } from "./styles";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { expenseCategory } from "../../assets/icons";
 
-export default function Home() {
+export default function Home({ navigation }) {
   const tabBarHeight = useBottomTabBarHeight;
-
-  const [transactions, setTransactions] = useState([
-    {
-      id: 1,
-      description: "Dinner",
-      amount: 300,
-      type: "expense",
-      mode: "UPI",
-    },
-    {
-      id: 2,
-      description: "Transport",
-      amount: 200,
-      type: "expense",
-      mode: "UPI",
-    },
-    {
-      id: 2,
-      description: "Transport",
-      amount: 200,
-      type: "expense",
-      mode: "UPI",
-    },
-    {
-      id: 2,
-      description: "Transport",
-      amount: 200,
-      type: "expense",
-      mode: "UPI",
-    },
-    {
-      id: 2,
-      description: "Transport",
-      amount: 200,
-      type: "expense",
-      mode: "UPI",
-    },
-    {
-      id: 2,
-      description: "Transport",
-      amount: 200,
-      type: "expense",
-      mode: "UPI",
-    },
-    {
-      id: 2,
-      description: "Transport",
-      amount: 200,
-      type: "expense",
-      mode: "UPI",
-    },
-    {
-      id: 2,
-      description: "Transport",
-      amount: 200,
-      type: "expense",
-      mode: "UPI",
-    },
-  ]);
+  const transactions = useSelector((state) => state.transactions);
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
@@ -104,13 +51,24 @@ export default function Home() {
                 }}
               >
                 <Text style={homeStyles.recordsTitle}>Transactions</Text>
-                <Text style={{ fontSize: 15, color: "blue" }}>View All</Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("Transactions")}
+                >
+                  <Text>View All</Text>
+                </TouchableOpacity>
               </View>
               {transactions.map((item, index) => (
                 <View style={homeStyles.record} key={index}>
                   <Icon name="bolt" color="yellow" size={25} />
                   <Text style={homeStyles.description}>{item.description}</Text>
-                  <Text style={homeStyles.amount}>$ {item.amount}</Text>
+                  <Text
+                    style={[
+                      homeStyles.amount,
+                      { color: item.isExpense ? "red" : "green" },
+                    ]}
+                  >
+                    $ {item.amount}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -120,3 +78,13 @@ export default function Home() {
     </SafeAreaView>
   );
 }
+
+//  {transactions.length > 0 ? (
+//   <FlatList
+//     data={transactions}
+//     keyExtractor={(item, index) => index.toString()}
+//     renderItem={({ item }) => <Text>text</Text>}
+//   />
+// ) : (
+//   <Text>No transactions to display.</Text>
+// )}

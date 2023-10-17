@@ -2,13 +2,14 @@ import React from "react";
 import { Text, StyleSheet, Pressable } from "react-native";
 
 export default function Button(props) {
-  const { onPress, title } = props;
+  const { onPress, title, bgColor, disabled } = props;
   return (
     <Pressable
+      disabled={disabled}
       style={[
         styles.button,
         {
-          backgroundColor: props.bgColor ? props.bgColor : "#1E80FF",
+          backgroundColor: disabled ? "grey" : bgColor,
         },
       ]}
       onPress={onPress}
