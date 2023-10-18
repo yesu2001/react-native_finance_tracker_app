@@ -64,7 +64,6 @@ export const homeStyles = StyleSheet.create({
     fontSize: 18,
   },
   amount: {
-    flex: 0.2,
     fontWeight: "bold",
   },
 });

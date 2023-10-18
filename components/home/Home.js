@@ -16,10 +16,23 @@ import { homeStyles } from "./styles";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { expenseCategory } from "../../assets/icons";
+import { createSelector } from "@reduxjs/toolkit";
+
+const selectTransactions = (state) => state.transactions;
+
+const selectSortedTransactions = createSelector(
+  [selectTransactions],
+  (transactions) => {
+    // Sort transactions by createdAt date, ensuring the same input parameters return the same result
+    return transactions
+      .slice()
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }
+);
 
 export default function Home({ navigation }) {
   const tabBarHeight = useBottomTabBarHeight;
-  const transactions = useSelector((state) => state.transactions);
+  const transactions = useSelector(selectSortedTransactions);
 
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight }}>
@@ -57,6 +70,11 @@ export default function Home({ navigation }) {
                   <Text>View All</Text>
                 </TouchableOpacity>
               </View>
+              {transactions.length < 1 && (
+                <Text style={{ textAlign: "center" }}>
+                  No transactions today.
+                </Text>
+              )}
               {transactions.map((item, index) => (
                 <View style={homeStyles.record} key={index}>
                   <Icon name="bolt" color="yellow" size={25} />
@@ -78,13 +96,3 @@ export default function Home({ navigation }) {
     </SafeAreaView>
   );
 }
-
-//  {transactions.length > 0 ? (
-//   <FlatList
-//     data={transactions}
-//     keyExtractor={(item, index) => index.toString()}
-//     renderItem={({ item }) => <Text>text</Text>}
-//   />
-// ) : (
-//   <Text>No transactions to display.</Text>
-// )}

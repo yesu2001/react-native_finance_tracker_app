@@ -34,16 +34,10 @@ const ExpenseIncomeForm = () => {
       mode,
       category,
       description,
+      createdAt: new Date().toISOString(),
     };
+    console.log(transaction);
     try {
-      if (!amount || !mode || !category || !description) {
-        Alert.alert("Incomplete Data", "Fill all the input fields.", [
-          {
-            text: "OK",
-            onPress: () => {},
-          },
-        ]);
-      }
       dispatch(addTransaction(transaction));
       setIsLoading(false);
       Alert.alert("Transaction Saved", "Your transaction has been saved.", [
@@ -133,7 +127,7 @@ const ExpenseIncomeForm = () => {
         </View>
 
         <Button
-          disabled={!amount || !mode || !description ? true : false}
+          disabled={!amount || !description ? true : false}
           title={isLoading ? "Saving..." : "Save"}
           onPress={handleSave}
           bgColor="#1E80FF"
